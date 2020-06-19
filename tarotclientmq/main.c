@@ -39,7 +39,7 @@ int main()
     while (connection == 0)
     {
         s_send(pusher, "TAROT?>Ozi>ConnReq");
-        if( strncmp( s_recv(sub), "TAROT!>Ozi>ConnSucc", strlen( subTopic) + (8*8)) == 0)
+        if( strncmp( s_recv(sub), "TAROT!>Ozi>ConnSucc", strlen( subTopic) + 8) == 0)
         {
             printf("CLIENT MESSAGE: Connection success!\r\n");
             connection = 1;
@@ -53,7 +53,7 @@ int main()
 
     while(cardsSelected == 0)
     {
-        if (strncmp( s_recv(sub), "TAROT?>Ozi>SelCard", strlen( subTopic) + (7*8)) == 0)
+        if (strncmp( s_recv(sub), "TAROT?>Ozi>SelCard", strlen( subTopic) + 7) == 0)
         {
             bool doneWhile = 0;
             int pickedFlags[22] = {0};
@@ -163,10 +163,12 @@ int main()
 
         s_send(pusher, "TAROT?>Ozi>ReqCards");
         //s_send(pusher, "sending...");
-        /*while (strncmp( s_recv(sub), "TAROT!>Ozi>ReqCardsGo", strlen( subTopic) + 10) != 0) //Wait til confirmation
-        {
+        char rstring[64];
 
-        }*/
+        while (strncmp( rstring, "TAROT!>Ozi>ReqCardsGo", strlen( subTopic) + 10) != 0) //Wait til confirmation
+        {
+            sprintf(rstring, "%s", s_recv(sub));
+        }
         for (int m = 0; m < 6; m++)
         {
             //s_send(pusher, "sending...");
@@ -178,18 +180,22 @@ int main()
             //strncat(rqbuf, "10", strlen(itoabuf));
             s_send(pusher, buf);
             printf("%s\r\n", buf);
-            bool whileflag = 0;
+            bool whileflag = 1;
+            char recbf[512];
             while (whileflag) //Wait til confirmation
             {
-                char recbf[512];
-
                 sprintf(recbf, "%s", s_recv(sub));  //Some trickery
-                if( strncmp( recbf, "TAROT!>Ozi>Card>", strlen( subTopic) + 5*8) == 0 )
+                if( strncmp( recbf, "TAROT!>Ozi>Card>", strlen( subTopic) + 5) == 0 )
                 {
+                    //sprintf(recbf, "%s", s_recv(sub));  //Some trickery
                     whileflag = 0;
                 }
                 //s_send(pusher, "sending...");
             }
+            //sprintf(recbf, "%s", recbf << (8 * )) //Apparently strrchr exists
+            char *rcvstr = strrchr(recbf, '>');
+            printf("%s\r\n", rcvstr);
+
            // s_send(pusher, "sending...");
             //printf("%s card\r\n", buf);
 
