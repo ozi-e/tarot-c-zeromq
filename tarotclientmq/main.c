@@ -17,8 +17,10 @@ int main()
     time_t t;
     srand((unsigned) time(&t)); //Initialize unique identifier number (possibly link to IP adress for one connection per network)
 
-    zmq_connect(pusher, "tcp://benternet.pxl-ea-ict.be:24041");
-    zmq_connect(sub, "tcp://benternet.pxl-ea-ict.be:24042");
+    //zmq_connect(pusher, "tcp://benternet.pxl-ea-ict.be:24041");
+    //zmq_connect(sub, "tcp://benternet.pxl-ea-ict.be:24042");
+    zmq_connect(pusher, "tcp://127.0.0.1:24041");
+    zmq_connect(sub, "tcp://127.0.0.1:24042");
 
     char subTopic[] = "TAROT!>Ozi>";
     char pubTopic[] = "TAROT?>Ozi>";

@@ -15,8 +15,10 @@ int main()
     void *pusher = zmq_socket (context, ZMQ_PUSH);
     void *sub = zmq_socket(context, ZMQ_SUB);
 
-    zmq_connect(pusher, "tcp://benternet.pxl-ea-ict.be:24041");
-    zmq_connect(sub, "tcp://benternet.pxl-ea-ict.be:24042");
+    //zmq_connect(pusher, "tcp://benternet.pxl-ea-ict.be:24041");
+    //zmq_connect(sub, "tcp://benternet.pxl-ea-ict.be:24042");
+    zmq_connect(pusher, "tcp://127.0.0.1:24041");
+    zmq_connect(sub, "tcp://127.0.0.1:24042");
 
     char pushtask[] = "TAROT?>Ozi>";  //service send commando
     // char pushanswer[]= "TAROT>Ozi>";
